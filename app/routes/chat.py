@@ -8,6 +8,6 @@ def home():
     return {"message":"Welcome to PromptBridge"}
 
 @router.post("/chat", response_model=ChatResponse)
-def api_response(request:ChatRequest):
-   answer = get_llm_response(request.prompt)
+async def api_response(request:ChatRequest):
+   answer = await get_llm_response(request.prompt)
    return ChatResponse(response=answer)

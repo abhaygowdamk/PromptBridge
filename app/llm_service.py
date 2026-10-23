@@ -16,8 +16,8 @@ client = genai.Client(api_key=api_key)
 
 MODEL = "gemini-3.5-flash-lite"
 
-def get_llm_response(prompt:str) -> str:
-    response = client.models.generate_content(
+async def get_llm_response(prompt:str) -> str:
+    response = await client.aio.models.generate_content(
         model = MODEL,
         contents = prompt
     )
