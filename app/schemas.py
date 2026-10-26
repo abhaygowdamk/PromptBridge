@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr
 
 class ChatRequest(BaseModel):
         prompt: str = Field(..., min_length=1)
@@ -6,3 +6,18 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
         response: str
         
+class UserCreate(BaseModel):
+        name: str = Field(min_length=1, max_length=100)
+        email: EmailStr
+
+class UserUpdate(BaseModel):
+        name: str|None = Field(default=None, min_length=1, max_length=100)
+        email:EmailStr|None = None
+
+class UserResponse(BaseModel):
+        model_config = ConfigDict(from_attributes=True)
+
+        id: int
+        name:str
+        email:EmailStr
+        created_at: datetime
