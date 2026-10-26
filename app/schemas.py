@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, Field, EmailStr, ConfigDict
 
 class ChatRequest(BaseModel):
         prompt: str = Field(..., min_length=1)
