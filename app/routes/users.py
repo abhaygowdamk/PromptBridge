@@ -3,13 +3,13 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.schemas import UserRequest, UserUpdate, UserResponse
-
+from app.schemas import hash_password
 
 router = APIRouter(prefix="/user", tags=["users"])
 
 @router.post("", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-async def create_user(request: UserRequest, user:User, db:AsyncSession = Depends(get_db)):
-    user = User(user.name=data.name, user.email=data.email)
+async def create_user(request: UserRequest, db:AsyncSession = Depends(get_db)):
+    user = User(name=data.name, email=data.email, hashed_password=hash_password(data.password))
     db.add(user)
 
     try:

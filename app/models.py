@@ -13,3 +13,5 @@ class User(Base):
         DateTime,
         server_default=func.now()
     )
+    hashed_password:Mapped[str]=mapped_column(String(255))
+    
