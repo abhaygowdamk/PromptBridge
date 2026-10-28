@@ -4,6 +4,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.schemas import UserRequest, UserUpdate, UserResponse
 from app.schemas import hash_password
+from app.dependency import get_current_user
+
+
 
 router = APIRouter(prefix="/user", tags=["users"])
 
@@ -22,6 +25,10 @@ async def create_user(request: UserRequest, db:AsyncSession = Depends(get_db)):
         )
     db.refresh(User)
     return user
+
+@router.get("/me", response_model=UserResponse)
+async def get_my_profile(current_user: User = Depends(get_current_user)):
+    return current_user
 
 @router.get("/{user_id}", response_model=UserResponse)
 async def get_user(user_id:int, db:AsyncSession = Depends(get_db)):
@@ -79,6 +86,10 @@ async def delete_user(user_id:int, db: AsyncSession=Depends(get_db)):
 
     await db.delete(user)
     await db.commit()
+
+
+
+
 
 
 
