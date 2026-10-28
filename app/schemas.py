@@ -39,3 +39,9 @@ class LoginRequest(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str
     token_type: str
+
+class ChatMessageResponse(BaseModel):
+    user_id: int
+    prompt:str
+    llm_response:str
+    created_at: datetime

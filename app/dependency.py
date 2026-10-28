@@ -8,7 +8,7 @@ from app.models import User
 
 bearer_schema = HTTPBearer()
 
-async def get_current_user(credentials:HTTPAuthorizationCredentials=Depends(bearer_schema), db:AsyncSession=Depends(get_db)):
+async def (get_current_usercredentials:HTTPAuthorizationCredentials=Depends(bearer_schema), db:AsyncSession=Depends(get_db)):
     token = credentials.credentials
     user_id = decode_access_token(token)
 

@@ -5,9 +5,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database import get_db
 from app.dependency import get_current_user
-from app.models import User
-from app.schemas import UserCreate, UserResponse, UserUpdate
+from app.models import User, ChatMessage
+from app.schemas import UserCreate, UserResponse, UserUpdate, ChatMessageResponse
 from app.security import hash_password
+
 
 router = APIRouter(prefix="/user", tags=["users"])
 
@@ -98,6 +99,13 @@ async def delete_user(user_id: int, db: AsyncSession = Depends(get_db)):
 
     await db.delete(user)
     await db.commit()
+
+
+@router.get("/history", response_model=list[ChatMessageResponse])
+async def get_message_history(current_user: User = Depends(get_cu0rrent_user), db:AsyncSession=Depends(get_db)):
+    result = await db.execute(select(ChatMessage).where(ChatMessage.user_id == current_user.id))
+    return result.scalars().all()
+
 
 
 
